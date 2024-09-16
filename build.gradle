@@ -16,6 +16,15 @@ repositories {
 	// Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
 	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
 	// for more information about repositories.
+	maven { url "https://maven.tomalbrc.de" }
+	maven { url 'https://maven.nucleoid.xyz' }
+	maven { url 'https://kneelawk.com/maven' }
+	maven { url "https://maven.alexiil.uk/" }
+	maven { url "https://api.modrinth.com/maven/" }
+	maven { url = "https://jitpack.io" }
+	maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
+	mavenLocal()
+	maven { url = 'https://maven.ladysnake.org/releases' }
 }
 
 fabricApi {
@@ -30,7 +39,25 @@ dependencies {
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-	
+
+	modImplementation 'eu.pb4:polymer-core:0.9.12+1.21.1'
+	modImplementation 'eu.pb4:polymer-resource-pack:0.9.12+1.21.1'
+	modImplementation 'eu.pb4:polymer-autohost:0.9.12+1.21.1'
+	modImplementation 'eu.pb4:polymer-virtual-entity:0.9.12+1.21.1'
+	modImplementation include('eu.pb4:map-canvas-api:0.4.2+1.21.1')
+	modImplementation include('eu.pb4:common-protection-api:1.0.0')
+	modImplementation include('eu.pb4:sidebar-api:0.5.1+1.21.1')
+	modImplementation include('eu.pb4:sgui:1.6.0+1.21')
+	modImplementation include('eu.pb4:factorytools:0.3.2+1.21')
+	modImplementation include('com.kneelawk.graphlib:graphlib-core-fabric:2.0.3+1.21')
+	modImplementation include("me.lucko:fabric-permissions-api:0.3.1")
+	modImplementation include("eu.pb4:player-data-api:0.6.0+1.21")
+	modImplementation include("eu.pb4:common-protection-api:1.0.0")
+	modImplementation include("xyz.nucleoid:server-translations-api:2.3.1+1.21-pre2")
+
+	//go to version page, version is version/... eg 1.4.128 is version/1.4.128
+	modImplementation include("maven.modrinth:polyfactory:0.4.2+1.21.1")
+
 }
 
 processResources {

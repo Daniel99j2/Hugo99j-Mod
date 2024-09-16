@@ -16,10 +16,10 @@
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"com.daniel99j.Hugo99jMod"
+          "com.daniel99j.hugo99j.Hugo99jMod"
 		],
 		"fabric-datagen": [
-			"com.daniel99j.Hugo99jModDataGenerator"
+          "com.daniel99j.hugo99j.Hugo99jModDataGenerator"
 		]
 	},
 	"mixins": [

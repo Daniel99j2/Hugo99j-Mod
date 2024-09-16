@@ -1,6 +1,6 @@
 {
 	"required": true,
-	"package": "com.daniel99j.mixin",
+	"package": "com.daniel99j.hugo99j.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
 		"ExampleMixin"
