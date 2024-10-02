@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "aga",
+    "geg",
+    "ata"
+  ],
+  "key": {
+    "g": {
+      "item": "minecraft:gold_ingot"
+    },
+    "t": {
+      "item": "minecraft:tnt"
+    },
+    "e": {
+      "item": "minecraft:emerald"
+    },
+    "a": {
+      "item": "minecraft:air"
+    }
+  },
+  "result": {
+    "id": "hugo99j:troll_totem"
+  }
+}
