@@ -18,6 +18,8 @@ public class ModItems {
     public static final Item CHOCOLATE_BAR = register("chocolate_bar", new ModeledItem(new Item.Settings()
             .food(new FoodComponent.Builder().nutrition(7).saturationModifier(1.5f).snack().build())));
 
+    public static final Item TROLL_TOTEM = register("troll_totem", new ModeledItem(new Item.Settings()));
+
     public static <T extends Item> T register(String path, T item) {
         Registry.register(Registries.ITEM, Identifier.of(Hugo99jMod.MOD_ID, path), item);
         return item;
@@ -31,4 +33,5 @@ public class ModItems {
         entries.add(CHOCOLATE_BUCKET);
         entries.add(CHOCOLATE_BAR);
     }
+
 }
