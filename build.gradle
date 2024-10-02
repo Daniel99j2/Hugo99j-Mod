@@ -57,7 +57,7 @@ dependencies {
 
 	//go to version page, version is version/... eg 1.4.128 is version/1.4.128
 	modImplementation include("maven.modrinth:polyfactory:0.4.2+1.21.1")
-
+	modImplementation include("maven.modrinth:polydecorations:0.4.4+1.21.1")
 }
 
 processResources {

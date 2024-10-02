@@ -2,9 +2,11 @@ package com.daniel99j.hugo99j.item;
 
 import com.daniel99j.hugo99j.Hugo99jMod;
 import eu.pb4.factorytools.api.item.ModeledItem;
-import eu.pb4.polymer.core.api.item.PolymerItemGroupUtils;
+import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroupEntries;
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.component.type.FoodComponent;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroups;
 import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -22,6 +24,11 @@ public class ModItems {
     }
 
     public static void registerItems() {
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.FOOD_AND_DRINK).register(ModItems::addItemsToGroup);
+    }
 
+    private static void addItemsToGroup(FabricItemGroupEntries entries) {
+        entries.add(CHOCOLATE_BUCKET);
+        entries.add(CHOCOLATE_BAR);
     }
 }
