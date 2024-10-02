@@ -1,9 +1,9 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "aga",
+    " g ",
     "geg",
-    "ata"
+    " t "
   ],
   "key": {
     "g": {
@@ -14,9 +14,6 @@
     },
     "e": {
       "item": "minecraft:emerald"
-    },
-    "a": {
-      "item": "minecraft:air"
     }
   },
   "result": {

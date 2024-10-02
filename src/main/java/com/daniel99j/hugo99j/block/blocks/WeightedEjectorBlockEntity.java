@@ -1,5 +1,7 @@
 package com.daniel99j.hugo99j.block.blocks;
 
+import com.daniel99j.hugo99j.Hugo99jMod;
+import com.daniel99j.hugo99j.block.ModBlockEntityRegistries;
 import com.mojang.authlib.GameProfile;
 import eu.pb4.common.protection.api.CommonProtection;
 import eu.pb4.factorytools.api.advancement.TriggerCriterion;
@@ -11,7 +13,6 @@ import eu.pb4.factorytools.api.util.VirtualDestroyStage;
 import eu.pb4.polyfactory.advancement.FactoryTriggers;
 import eu.pb4.polyfactory.block.FactoryBlockEntities;
 import eu.pb4.polyfactory.block.mechanical.RotationUser;
-import eu.pb4.polyfactory.block.mechanical.machines.MinerBlock;
 import eu.pb4.polyfactory.item.FactoryItemTags;
 import eu.pb4.polyfactory.ui.GuiTextures;
 import eu.pb4.polyfactory.ui.TagLimitedSlot;
@@ -30,6 +31,8 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.component.ComponentMap;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.AttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributeInstance;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -39,6 +42,7 @@ import net.minecraft.inventory.StackReference;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtHelper;
+import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.ScreenHandlerType;
@@ -56,12 +60,14 @@ import org.jetbrains.annotations.Nullable;
 
 public class WeightedEjectorBlockEntity extends BlockEntity {
     private float cooldown;
+    private float oldCooldown;
     private float stress;
     private WeightedEjectorBlock.Model model;
 
     public WeightedEjectorBlockEntity(BlockPos pos, BlockState state) {
-        super(FactoryBlockEntities.MINER, pos, state);
+        super(ModBlockEntityRegistries.WEIGHTED_EJECTOR_BLOCK_ENTITY, pos, state);
         this.cooldown = 0;
+        this.oldCooldown = 0;
     }
 
     protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup lookup) {
@@ -71,12 +77,23 @@ public class WeightedEjectorBlockEntity extends BlockEntity {
 
     public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup lookup) {
         this.cooldown = nbt.getFloat("cooldown");
+        if(this.cooldown > 0.0F) {
+            this.cooldown = this.cooldown - 1.0F;
+            nbt.putFloat("cooldown", this.cooldown);
+            if(this.model != null) {
+                this.model.setRotation(90 + this.cooldown / this.oldCooldown);
+            }
+        }
         super.readNbt(nbt, lookup);
-        this.cooldown = this.cooldown-1;
     }
 
     public float getCooldown() {
         return this.cooldown;
+    }
+
+    public void setCooldown(float value) {
+        this.cooldown = value;
+        this.oldCooldown = value;
     }
 
     public static <T extends BlockEntity> void ticker(World world, BlockPos pos, BlockState state, T t) {
@@ -84,14 +101,15 @@ public class WeightedEjectorBlockEntity extends BlockEntity {
         if (self.model == null) {
             self.model = (WeightedEjectorBlock.Model)BlockBoundAttachment.get(world, pos).holder();
         }
-
-        BlockPos blockPos = pos.offset((Direction)state.get(WeightedEjectorBlock.FACING));
-        BlockState stateFront = world.getBlockState(blockPos);
-        List<Entity> entities = world.getEntitiesByClass(Entity.class, new Box(blockPos), Entity::canHit);
-        if (!entities.isEmpty() && self.cooldown == 0) {
-            double speed = Math.abs(RotationUser.getRotation((ServerWorld) world, pos).speed()) * 0.01745329238474369 * 3.0;
-            self.stress = 15.0F;
-            self.model.setRotation(90.0F);
+        double speed = RotationUser.getRotation(world, pos).speed();
+        for (Entity e : world.getEntitiesByClass(Entity.class, new Box(pos), EntityPredicates.EXCEPT_SPECTATOR)) {
+            if(!e.hasNoGravity() && e.isAlive() && e.isOnGround() && (e instanceof LivingEntity || e instanceof ItemEntity)) {
+                e.setVelocity(0, 1, 1);
+                e.velocityDirty = true;
+                e.velocityModified = true;
+                self.stress = 15.0F;
+                self.setCooldown(180F-((float) speed/1.5F));
+            }
         }
     }
 

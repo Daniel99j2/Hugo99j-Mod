@@ -1,5 +1,7 @@
 package com.daniel99j.hugo99j;
 
+import com.daniel99j.hugo99j.block.ModBlockEntityRegistries;
+import com.daniel99j.hugo99j.block.ModBlocks;
 import com.daniel99j.hugo99j.fluid.ModFluids;
 import com.daniel99j.hugo99j.item.ModItems;
 import net.fabricmc.api.ModInitializer;
@@ -18,6 +20,8 @@ public class Hugo99jMod implements ModInitializer {
 		// Proceed with mild caution.
 		ModItems.registerItems();
 		ModFluids.registerFluids();
+		ModBlocks.register();
+		ModBlockEntityRegistries.registerBlockEntities();
 		LOGGER.info("Hugo99j Mod loaded!");
 	}
 }
